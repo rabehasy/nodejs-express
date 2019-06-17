@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "madatsara",
+    "password": "!4xntmj60!",
+    "database": "madatsara",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "madatsara",
+    "password": "!4xntmj60!",
+    "database": "madatsara_dev",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "madatsara",
+    "password": "!4xntmj60!",
+    "database": "madatsara",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}
