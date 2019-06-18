@@ -10,7 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 // Api rest Controllers
-var apiRestRouter = require('./routes/rest/api');
+var apiApiRestRouter = require('./routes/rest/api');
+var apiUserRestRouter = require('./routes/rest/user');
 
 var app = express();
 
@@ -32,7 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api', apiRestRouter);
+app.use('/api/api', apiApiRestRouter);
+app.use('/api/user', apiUserRestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

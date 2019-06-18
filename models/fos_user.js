@@ -1,7 +1,10 @@
 /* jshint indent: 2 */
 
+// Utile pour hasher le mot de passe
+var bcrypt = require("bcryptjs");
+
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('fos_user', {
+  var User = sequelize.define('fos_user', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -160,6 +163,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'fos_user'
+    tableName: 'fos_user',
+    underscored: false,
+    timestamps: false
   });
+
+    User.prototype.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.password);
+    };
+
+    return User;
 };
