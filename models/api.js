@@ -22,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'api',
-    underscored: true
+    underscored: true,
+    timestamps: false
   });
 };
