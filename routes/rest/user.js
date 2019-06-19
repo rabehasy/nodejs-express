@@ -7,9 +7,6 @@ const db = require('../../models');
 
 var router = express.Router();
 
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-
 /**
  * @GET /api/user/me
  */
