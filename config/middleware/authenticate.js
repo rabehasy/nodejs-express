@@ -6,7 +6,7 @@ var passport = require('passport');
 
 var db = require("../../models");
 
-var unserializephp = require('locutus/php/var/unserialize')
+var unserializephp = require('locutus/php/var/unserialize');
 
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
