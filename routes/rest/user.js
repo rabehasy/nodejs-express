@@ -7,10 +7,12 @@ const db = require('../../models');
 
 var router = express.Router();
 
+var cors = require('cors');
+
 /**
  * @GET /api/user/me
  */
-router.get('/me',authenticate.verifyUser,  function(req, res, next) {
+router.get('/me',authenticate.verifyUser, cors(),  function(req, res, next) {
     res.json({
         error: false,
         data: req.user

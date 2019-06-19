@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
+// var cors = require('cors');
 
 // Web Controllers
 var indexRouter = require('./routes/index');
@@ -14,6 +15,10 @@ var apiApiRestRouter = require('./routes/rest/api');
 var apiUserRestRouter = require('./routes/rest/user');
 
 var app = express();
+
+// Cors
+// app.use(cors());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
