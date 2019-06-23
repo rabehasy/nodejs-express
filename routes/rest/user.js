@@ -44,7 +44,7 @@ router.get('/:id', authenticate.verifyUser, authenticate.verifyAdmin, function(r
 /**
  * @POST /api/user/login
  */
-router.post('/login', function(req, res, next) {
+router.post('/login', cors(), function(req, res, next) {
     passport.authenticate('local', {session: false}, (err, user, info) => {
         // console.log(user);
         if (err || !user) {
