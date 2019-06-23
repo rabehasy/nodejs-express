@@ -65,7 +65,8 @@ router.post('/login', cors(), function(req, res, next) {
             res.json({
                 success: true,
                 token: token,
-                status: 'You are successfully logged in'
+                status: 'You are successfully logged in',
+                expires: 3600
             })
 
         });
