@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'event_event_artistes_dj_organisateurs'
+    tableName: 'event_event_artistes_dj_organisateurs',
+      timestamps: false
   });
 };

@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'event_event_type'
+    tableName: 'event_event_type',
+      timestamps: false
   });
 };

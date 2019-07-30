@@ -48,7 +48,7 @@ router.post('/login', cors(), function(req, res, next) {
     passport.authenticate('local', {session: false}, (err, user, info) => {
         // console.log(user);
         if (err || !user) {
-            return res.status(200).json({
+            return res.status(401).json({
                 message: 'Something is not right',
                 user   : user
             });
@@ -66,7 +66,8 @@ router.post('/login', cors(), function(req, res, next) {
                 success: true,
                 token: token,
                 status: 'You are successfully logged in',
-                expires: 3600
+                expires: 3600,
+                username: user.username
             })
 
         });

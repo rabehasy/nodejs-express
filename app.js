@@ -11,8 +11,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 // Api rest Controllers
-var apiApiRestRouter = require('./routes/rest/api');
-var apiUserRestRouter = require('./routes/rest/user');
+var apiController = require('./routes/rest/api');
+var userController = require('./routes/rest/user');
+var eventController = require('./routes/rest/event');
 
 var app = express();
 
@@ -38,8 +39,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/api', apiApiRestRouter);
-app.use('/api/user', apiUserRestRouter);
+app.use('/api/api', apiController);
+app.use('/api/user', userController);
+app.use('/api/event', eventController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

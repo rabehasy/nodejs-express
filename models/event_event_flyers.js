@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'event_event_flyers'
+    tableName: 'event_event_flyers',
+      timestamps: false
   });
 };
