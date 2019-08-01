@@ -35,9 +35,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts, (jwt_payload, done) => 
 exports.verifyUser = passport.authenticate('jwt', {session: false});
 
 exports.getToken = function (user) {
-    return jwt.sign(user, '12541302154877', {
-        expiresIn: 3600
-    });
+    return jwt.sign(user, opts.secretOrKey, { expiresIn: "90d" });
 };
 
 exports.verifyAdmin = (req, res, next) => {

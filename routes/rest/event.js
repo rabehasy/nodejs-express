@@ -12,25 +12,62 @@ var cors = require('cors');
 /**
  * @GET /api/event
  */
-router.get('/', authenticate.verifyUser,  function(req, res, next) {
-    db.event.findAll(
-        {
-            /*include: [
-                { model: db.entree },
-                { model: db.api },
-                { model: db.flyers },
-                { model: db.lieu },
-                { model: db.thematique },
-                { model: db.artistes },
-                { model: db.date },
-                { model: db.common_event },
-                'eventRelated'
-            ],*/
-            limit: 100 })
-        .then((users) => {
-            res.json(users);
-        }, (err) => next(err))
-        .catch((err) => next(err));
+router.get('/', authenticate.verifyUser,  async (req, res, next) => {
+
+    // queryStrings
+    let {name, order, sort, limit, offset } = req.query;
+    let paramQuerySQL = {};
+
+    // sort par defaut si param vide ou inexistant
+    if (typeof sort === 'undefined' || sort == '') {
+        sort = 'ASC';
+    }
+
+    // Si sort n'est pas vide et n'est ni asc ni desc
+    if (typeof sort !== 'undefined' && !['asc','desc'].includes(sort.toLowerCase())) {
+        sort = 'ASC';
+    }
+
+    // Recherche LIKE '%%'
+    if (name != '' && typeof name !== 'undefined') {
+        paramQuerySQL.where = {
+            name: {
+                [Op.like]: '%' + name + '%'
+            }
+        }
+
+    }
+
+    // order by
+    if (order != '' && typeof order !== 'undefined' && ['name'].includes(order.toLowerCase())) {
+        paramQuerySQL.order = [
+            [order, sort]
+        ];
+    }
+
+    // limit
+    if (limit != '' && typeof limit !== 'undefined' && limit > 0) {
+        paramQuerySQL.limit = parseInt(limit);
+    }
+
+    // offset
+    if (offset != '' && typeof offset !== 'undefined' && offset > 0) {
+        paramQuerySQL.offset = parseInt(offset);
+    }
+
+    let n = await db.event.count();
+    console.log(`There are ${n} rows`);
+
+    if (n>100) {
+        paramQuerySQL.limit = 100;
+    }
+
+    let events = await db.event.findAndCountAll(paramQuerySQL);
+    res.json({
+        error: false,
+        count: events.count,
+        data: events.rows,
+    });
 });
 
 /**
