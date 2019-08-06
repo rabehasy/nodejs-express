@@ -56,16 +56,19 @@ router.get('/', authenticate.verifyUser,  async (req, res, next) => {
     }
 
     let n = await db.event.count();
-    console.log(`There are ${n} rows`);
 
-    if (n>100) {
+    // if total rows > 100 and query limit is not set --> force limit=100
+    if (n>100 && typeof paramQuerySQL.limit === 'undefined') {
         paramQuerySQL.limit = 100;
     }
+
 
     let events = await db.event.findAndCountAll(paramQuerySQL);
     res.json({
         error: false,
         count: events.count,
+        baseurl: req.protocol + '://' + req.get('host') + req.originalUrl,
+        paramQuerySQL: paramQuerySQL,
         data: events.rows,
     });
 });

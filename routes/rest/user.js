@@ -46,8 +46,9 @@ router.get('/:id', authenticate.verifyUser, authenticate.verifyAdmin, function(r
  */
 router.post('/login', cors(), function(req, res, next) {
     passport.authenticate('local', {session: false}, (err, user, info) => {
-        // console.log(user);
+
         if (err || !user) {
+            console.log(err);
             return res.status(401).json({
                 message: 'Something is not right',
                 user   : user
