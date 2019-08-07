@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var models = require('../models');
+var models = require('../param/models');
 
 var app = require('../app');
 var debug = require('debug')('nodejs-express:server');

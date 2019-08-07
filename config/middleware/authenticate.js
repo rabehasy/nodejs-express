@@ -4,7 +4,7 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var passport = require('passport');
 
-var db = require("../../models");
+var db = require("../../param/models");
 
 var unserializephp = require('locutus/php/var/unserialize');
 

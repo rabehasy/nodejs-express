@@ -3,7 +3,7 @@ var express = require('express');
 var authenticate = require('../../config/middleware/authenticate')
 var passport = require('../../config/passport')
 
-const db = require('../../models');
+const db = require('../../param/models');
 
 var router = express.Router();
 
@@ -13,6 +13,9 @@ var cors = require('cors');
  * @GET /api/event
  */
 router.get('/', authenticate.verifyUser,  async (req, res, next) => {
+
+    let offsetInt = 0;
+    let limitInt = 0;
 
     // queryStrings
     let {name, order, sort, limit, offset } = req.query;
@@ -47,32 +50,73 @@ router.get('/', authenticate.verifyUser,  async (req, res, next) => {
 
     // limit
     if (limit != '' && typeof limit !== 'undefined' && limit > 0) {
-        paramQuerySQL.limit = parseInt(limit);
+        limitInt = parseInt(limit);
+        paramQuerySQL.limit = limitInt;
     }
 
     // offset
     if (offset != '' && typeof offset !== 'undefined' && offset > 0) {
-        paramQuerySQL.offset = parseInt(offset);
+        offsetInt = parseInt(offset);
+        paramQuerySQL.offset = offsetInt;
     }
 
     let n = await db.event.count();
 
     // if total rows > 100 and query limit is not set --> force limit=100
     if (n>100 && typeof paramQuerySQL.limit === 'undefined') {
-        paramQuerySQL.limit = 100;
+        limitInt = 100;
+        paramQuerySQL.limit = limitInt;
+    }
+
+    let entities = await db.event.findAndCountAll(paramQuerySQL);
+
+    // count rows
+    let totalInt = entities.count;
+
+    // next offset
+    let nextOffset = offsetInt+limitInt;
+
+    // prev offset
+    let prevOffset = offsetInt-limitInt;
+
+    // query string
+    let requestUri = req.originalUrl;
+
+    let requestUriNext = requestUri + '&offset=' + nextOffset;
+    let requestUriPrev = requestUri + '&offset=' + prevOffset;
+
+    if (/offset=[0-9]*/.test(requestUri)) {
+        requestUriNext = requestUri.replace(/offset=[0-9]*/g, 'offset=' + nextOffset);
+    }
+    if (/offset=[0-9]*/.test(requestUri)) {
+        requestUriPrev = requestUri.replace(/offset=[0-9]*/g, 'offset=' + prevOffset);
+    }
+
+    let baseUrl = req.protocol + '://' + req.get('host') + requestUri;
+    let nextUrl = req.protocol + '://' + req.get('host') + requestUriNext;
+    let prevUrl = req.protocol + '://' + req.get('host') + requestUriPrev;
+
+
+    if (nextOffset >= totalInt ) {
+        nextUrl = '';
+    }
+    if (prevOffset <= 0 ) {
+        prevUrl = '';
     }
 
 
-    let events = await db.event.findAndCountAll(paramQuerySQL);
     res.json({
         error: false,
-        count: events.count,
-        baseurl: req.protocol + '://' + req.get('host') + req.originalUrl,
+        count: totalInt,
+        currenturl: baseUrl,
+        nexturl: nextUrl,
+        prevurl: prevUrl,
         paramQuerySQL: paramQuerySQL,
-        data: events.rows,
+        data: entities.rows,
     });
 });
 
+/**
 /**
  * @GET /api/event/1
  */

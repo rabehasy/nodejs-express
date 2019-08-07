@@ -3,7 +3,7 @@ var express = require('express');
 var authenticate = require('../../config/middleware/authenticate')
 var passport = require('../../config/passport')
 
-const db = require('../../models');
+const db = require('../../param/models');
 
 var router = express.Router();
 

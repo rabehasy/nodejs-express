@@ -1,0 +1,10 @@
+{
+  "production": {
+    "username": "madatsara",
+    "password": "!4xntmj60!",
+    "database": "madatsara",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}

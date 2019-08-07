@@ -1,0 +1,6 @@
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve('param', 'config.json'),
+  'models-path': path.resolve('param', 'models')
+}
