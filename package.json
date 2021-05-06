@@ -15,7 +15,7 @@
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
-    "locutus": "^2.0.11",
+    "locutus": "^2.0.12",
     "morgan": "~1.9.1",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
